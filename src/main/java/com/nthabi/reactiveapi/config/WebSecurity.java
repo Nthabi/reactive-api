@@ -15,10 +15,13 @@ public class WebSecurity {
 
     @Bean
     SecurityWebFilterChain securityFilterChain(ServerHttpSecurity http) {
-        return http.authorizeExchange(exchanges ->  exchanges.pathMatchers(HttpMethod.POST, "/users/create")
-                       .permitAll()
+        return http.authorizeExchange(exchanges ->  exchanges
+                .pathMatchers(HttpMethod.POST, "/users/create").permitAll()
+                .pathMatchers(HttpMethod.POST, "/users/login").permitAll()
                        .anyExchange().authenticated()
-        ).csrf(ServerHttpSecurity.CsrfSpec::disable).build();
+        ).csrf(ServerHttpSecurity.CsrfSpec::disable)
+                .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
+                .build();
     }
 
     @Bean

@@ -7,11 +7,15 @@ import com.nthabi.reactiveapi.respository.UsersRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
+
+import java.util.ArrayList;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -59,5 +63,15 @@ public class UserServiceImpl implements UserService {
         UserDTO userDTO = new UserDTO();
         BeanUtils.copyProperties(user, userDTO);
         return userDTO;
+    }
+
+    @Override
+    public Mono<UserDetails> findByUsername(String username) {
+        return usersRepository.findByEmail(username)
+                .map(user -> User
+                        .withUsername(user.getEmail())
+                        .password(user.getPassword())
+                        .authorities(new ArrayList<>())
+                        .build());
     }
 }
