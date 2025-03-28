@@ -5,30 +5,30 @@ import com.nthabi.reactiveapi.dto.UserDTO;
 import com.nthabi.reactiveapi.entities.Users;
 import com.nthabi.reactiveapi.respository.UsersRepository;
 import org.springframework.beans.BeanUtils;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import reactor.core.scheduler.Schedulers;
 
 @Service
 public class UserServiceImpl implements UserService {
 
 
     private final UsersRepository usersRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UsersRepository usersRepository) {
+    public UserServiceImpl(UsersRepository usersRepository, PasswordEncoder passwordEncoder) {
         this.usersRepository = usersRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public Mono<UserDTO> createUser(Mono<UserRequest> createUser) {
         return createUser
-                .mapNotNull(this::convertToEntity)
+                .flatMap(this::convertToEntity)
                 .flatMap(usersRepository::save)
                 .mapNotNull(this::convertToDTO);
     }
@@ -46,10 +46,13 @@ public class UserServiceImpl implements UserService {
                 .map(user -> convertToDTO(user));
     }
 
-    private Users convertToEntity (UserRequest userRequest) {
-        Users user = new Users();
-        BeanUtils.copyProperties(userRequest, user);
-        return user;
+    private Mono<Users> convertToEntity (UserRequest userRequest) {
+        return Mono.fromCallable(() -> {
+            Users user = new Users();
+            BeanUtils.copyProperties(userRequest, user);
+            user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+            return user;
+        }).subscribeOn(Schedulers.boundedElastic());
     }
 
     private UserDTO convertToDTO(Users user) {
