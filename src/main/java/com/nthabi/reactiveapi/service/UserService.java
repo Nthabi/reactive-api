@@ -7,4 +7,7 @@ import reactor.core.publisher.Mono;
 public interface UserService {
 
     Mono<UserDTO> createUser(Mono<UserRequest> createUser);
+
+    Mono<UserDTO> getUser(int id);
+
 }

@@ -26,6 +26,11 @@ public class UserServiceImpl implements UserService {
                 .mapNotNull(this::convertToDTO);
     }
 
+    @Override
+    public Mono<UserDTO> getUser(int id) {
+        return usersRepository.findById(id).map(this::convertToDTO);
+    }
+
     private Users convertToEntity (UserRequest userRequest) {
         Users user = new Users();
         BeanUtils.copyProperties(userRequest, user);

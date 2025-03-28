@@ -22,20 +22,10 @@ public class UserController {
     public Mono<ResponseEntity<UserDTO>> createUser(@RequestBody @Valid Mono<UserRequest> user) {
         return userService.createUser(user)
                 .mapNotNull(userDTO -> ResponseEntity.status(HttpStatus.CREATED).body(userDTO));
-
-//        return user.map(userRequest ->
-//                new UserDTO("Nthabi",
-//                        "Mashiane",
-//                        "test@email.com",
-//                        "Nthabi"))
-//                .map(userDTO -> ResponseEntity.status(HttpStatus.CREATED).body(userDTO));
     }
 
-    @GetMapping("/{name}")
-    public Mono<UserDTO> getUser(@PathVariable("name") String name){
-        return Mono.just(new UserDTO("Nthabi",
-                "Mashiane",
-                "test@email.com",
-                "Nthabi"));
+    @GetMapping("/{id}")
+    public Mono<UserDTO> getUser(@PathVariable("id") int id){
+        return userService.getUser(id);
     }
 }
