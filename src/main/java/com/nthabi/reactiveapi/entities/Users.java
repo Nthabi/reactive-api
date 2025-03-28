@@ -12,7 +12,7 @@ import java.util.UUID;
 public class Users {
 
     @Id
-    private UUID id;
+    private int id;
 
     @Column("first_name")
     private String firstname;

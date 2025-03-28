@@ -1,12 +1,10 @@
-CREATE SCHEMA testDb;
-
-SET SCHEMA testDb;
+CREATE SCHEMA IF NOT EXISTS test;
 
 CREATE TABLE users(
-    id UUID DEFAULT RANDOM_UUID() PRIMARY KEY,
-    first_name VARCHAR(50) NOT NULL,
-    last_name VARCHAR(50) NOT NULL,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    passowrd VARCHAR(100) NOT NULL
+    id SERIAL PRIMARY KEY,
+    first_name TEXT NOT NULL,
+    last_name TEXT NOT NULL,
+    email TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL
 );
 

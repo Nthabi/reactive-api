@@ -1,18 +1,16 @@
 spring:
-  application:
-    name: reactive-api
   r2dbc:
-    url: r2dbc:h2:mem:///testDb
+    url: r2dbc:postgresql://localhost:5432/test
     username:
     password:
-  h2:
-    console:
-      enabled: true
-      path: /h2-console
+#  h2:
+#    console:
+#      enabled: true
+#      path: /h2-console
   #set this so that sprinboot runs your scripts on startup
-  sql:
-    init:
-      mode: embedded
+#  sql:
+#    init:
+#      mode: always
 
 server:
   error:
