@@ -30,17 +30,7 @@ public class UserServiceImpl implements UserService {
         return createUser
                 .mapNotNull(this::convertToEntity)
                 .flatMap(usersRepository::save)
-                .mapNotNull(this::convertToDTO)
-                .onErrorMap(exception ->
-                    {
-                        if(exception instanceof DuplicateKeyException) {
-                           return new ResponseStatusException(HttpStatus.CONFLICT, exception.getMessage());
-                        } else if(exception instanceof DataIntegrityViolationException){
-                            return new ResponseStatusException(HttpStatus.BAD_REQUEST, exception.getMessage());
-                        } else {
-                            return new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, exception.getMessage());
-                        }
-                    });
+                .mapNotNull(this::convertToDTO);
     }
 
     @Override
