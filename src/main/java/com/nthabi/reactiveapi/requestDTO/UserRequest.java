@@ -1,4 +1,4 @@
-package com.nthabi.reactiveapi.domain;
+package com.nthabi.reactiveapi.requestDTO;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -25,9 +25,7 @@ public class UserRequest {
     @Email(message = "Please enter a valid email")
     private String email;
 
-    private String username;
-
-    @NotBlank(message = "Password cannot be empty")
+    @NotBlank(message = "Please enter password")
     @Pattern(regexp = "^(?=.*[0-9])(?=.*[a-zA-Z]).{8,}$", message = "Password must contain at least one letter, one number, and be at least 8 characters long")
     private String password;
 }
