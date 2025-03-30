@@ -34,6 +34,7 @@ jobs:
       uses: docker/build-push-action@v6
       with:
         image: nthabimashiane/rent-share
+        file: ./Dockerfile
         registry: docker.io
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
