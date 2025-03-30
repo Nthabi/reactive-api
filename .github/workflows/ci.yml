@@ -41,7 +41,7 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
         push: true
-        # tags: user/app:latest #should add auto update here
+        tags: docker.io/${{ secrets.DOCKERHUB_USERNAME }}/app:latest 
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     # - name: Update dependency graph
