@@ -37,7 +37,6 @@ jobs:
         registry: docker.io
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
-        context: "{{defaultContext}}:mysubdir"
         push: true
         tags: user/app:latest #should add auto update here
 
