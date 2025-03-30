@@ -41,7 +41,7 @@ jobs:
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
         push: true
-        tags: docker.io/nthabimashiane/rent-share:latest 
+        tags: docker.io/nthabimashiane/app:latest 
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     # - name: Update dependency graph
