@@ -28,19 +28,19 @@ jobs:
         distribution: 'temurin'
         cache: maven
 
-    - name: Build Project
-      run: mvn clean install
+    # - name: Build Project
+    #   run: mvn clean install
       
   # Check if the target directory exists and contains your image
-    - name: Verify target directory
-      run: |
-        if [ -d "target" ]; then
-          echo "Target directory exists."
-          ls -l target  # This will list the contents of the target directory
-        else
-          echo "Target directory does not exist."
-          exit 1  # Exit with an error if target is not found
-        fi
+    # - name: Verify target directory
+    #   run: |
+    #     if [ -d "target" ]; then
+    #       echo "Target directory exists."
+    #       ls -l target  # This will list the contents of the target directory
+    #     else
+    #       echo "Target directory does not exist."
+    #       exit 1  # Exit with an error if target is not found
+    #     fi
 
     - name: Build Docker image
       run: docker build -t your-image .
