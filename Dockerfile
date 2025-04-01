@@ -16,7 +16,7 @@ COPY src src
 RUN ./mvnw clean package -DskipTests
 
 # Copy the built JAR file to the container
-COPY target/*.jar app.jar
+COPY reactive-api-0.0.1-SNAPSHOT.jar app.jar
 
 # Expose the port the application runs on
 EXPOSE 8080
