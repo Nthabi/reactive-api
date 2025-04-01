@@ -27,19 +27,45 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
         cache: maven
-    - name: Build with Maven
-      run: mvn clean install 
+
+    - name: Build Project
+      run: mvn clean install
+      
+  # Check if the target directory exists and contains your image
+    - name: Verify target directory
+      run: |
+        if [ -d "target" ]; then
+          echo "Target directory exists."
+          ls -l target  # This will list the contents of the target directory
+        else
+          echo "Target directory does not exist."
+          exit 1  # Exit with an error if target is not found
+        fi
+
+    - name: Build Docker image
+      run: docker build -t your-image .
+
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Set up QEMU
+      uses: docker/setup-qemu-action@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
 
     - name: Build and push Docker image
       uses: docker/build-push-action@v6
       with:
+        context: .
         image: nthabimashiane/rent-share
         file: ./Dockerfile
         registry: docker.io
         username: ${{ secrets.DOCKERHUB_USERNAME }}
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
-        # push: true
-        # tags: user/app:latest #should add auto update here
+        push: true
+        tags: test
+
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     # - name: Update dependency graph
